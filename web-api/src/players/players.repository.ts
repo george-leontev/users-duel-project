@@ -7,8 +7,14 @@ export class PlayersRepository extends PrismaClient implements OnModuleInit {
     await this.$connect();
   }
 
-  async getAllAsync() {
-    const users = await this.player.findMany();
+  async getAllAsync(userId: number) {
+    const users = await this.player.findMany({
+      where: {
+        userId: {
+          not: userId,
+        },
+      },
+    });
 
     return users;
   }

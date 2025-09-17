@@ -1,6 +1,8 @@
-import axios from "axios";
 import { createContext, useCallback, useContext } from "react";
 import type { PlayerModel } from "../models/player-model";
+import routes from "../constants/app-api-routes";
+import { useAuthHttpRequest } from "./use-auth-http-request";
+import { HttpConstants } from "../constants/app-http-constants";
 
 export type AppDataContextModel = {
     getUsersAsync: () => Promise<PlayerModel[] | undefined>;
@@ -11,20 +13,22 @@ const AppDataContext = createContext({} as AppDataContextModel);
 export type AppDataContextProviderProps = object;
 
 function AppDataContextProvider(props: AppDataContextProviderProps) {
+    const authHttpRequest = useAuthHttpRequest();
+
     const getPlayersAsync = useCallback(async () => {
         try {
-            const responce = await axios.request({
+            const responce = await authHttpRequest({
                 method: "GET",
-                url: "http://localhost:3000/api/players",
+                url: routes.players,
             });
 
-            if (responce && responce.status == 200) {
+            if (responce && responce.status == HttpConstants.StatusCodes.Ok) {
                 return responce.data as PlayerModel[];
             }
         } catch (error) {
             console.log(error);
         }
-    }, []);
+    }, [authHttpRequest]);
 
     return <AppDataContext.Provider {...props} value={{ getUsersAsync: getPlayersAsync }} />;
 }

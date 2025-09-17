@@ -10,10 +10,9 @@ export class PlayersController {
   @Get()
   async getAllAsync(@Req() request) {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const user = request.user;
-    console.log(user);
+    const userId = request.user.userId;
 
-    const users = await this.playersRepository.getAllAsync();
+    const users = await this.playersRepository.getAllAsync(userId);
 
     return users;
   }
