@@ -1,9 +1,0 @@
-// model Duel {
-//     id       Int @id @default(autoincrement())
-//     winnerId Int @map("winner_id")
-
-//     winner User @relation(fields: [winnerId], references: [id], onDelete: Cascade)
-
-//     @@map("duel")
-//     @@schema("business")
-// }

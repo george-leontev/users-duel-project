@@ -5,8 +5,6 @@ CREATE SCHEMA IF NOT EXISTS "business";
 CREATE TABLE "business"."user" (
     "id" SERIAL NOT NULL,
     "user_name" TEXT NOT NULL,
-    "first_name" TEXT NOT NULL,
-    "last_name" TEXT NOT NULL,
 
     CONSTRAINT "user_pkey" PRIMARY KEY ("id")
 );

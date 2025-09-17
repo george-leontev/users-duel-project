@@ -5,7 +5,9 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  const allowedWebUiUrls = (process.env.WEB_UI ?? '5473').split(';');
+  const allowedWebUiUrls = (process.env.WEB_UI ?? '').split(';');
+  console.log(allowedWebUiUrls);
+
   app.enableCors({
     origin: allowedWebUiUrls,
     methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE', 'OPTIONS'],

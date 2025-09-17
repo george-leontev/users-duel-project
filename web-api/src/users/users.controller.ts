@@ -1,14 +1,26 @@
-import { Controller, Get } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  NotFoundException,
+  Param,
+  ParseIntPipe,
+} from '@nestjs/common';
 import { UsersRepository } from './users.repository';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
-@Controller('/api/users')
+@ApiBearerAuth()
+@Controller('api/users')
 export class UsersController {
-  constructor(private readonly usersRepository: UsersRepository) {}
+  constructor(private readonly userRepository: UsersRepository) {}
 
-  @Get()
-  async getAllAsync() {
-    const users = await this.usersRepository.getAllAsync();
+  @Get(':id')
+  async getAsync(@Param('id', ParseIntPipe) id: number) {
+    const user = await this.userRepository.getAsync(id);
 
-    return users;
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    return user;
   }
 }

@@ -10,14 +10,25 @@ datasource db {
 }
 
 model User {
-  id        Int    @id @default(autoincrement())
-  userName  String @map("user_name")
-  firstName String @map("first_name")
-  lastName  String @map("last_name")
+  id       Int    @id @default(autoincrement())
+  email    String @unique
+  password String
 
-  Duel Duel[]
+  player Player?
 
   @@map("user")
+  @@schema("business")
+}
+
+model Player {
+  id       Int    @id @default(autoincrement())
+  userName String @map("user_name")
+  userId   Int    @unique @map("user_id")
+
+  Duel Duel[]
+  User User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("player")
   @@schema("business")
 }
 
@@ -25,7 +36,7 @@ model Duel {
   id       Int @id @default(autoincrement())
   winnerId Int @map("winner_id")
 
-  winner User @relation(fields: [winnerId], references: [id], onDelete: Cascade)
+  winner Player @relation(fields: [winnerId], references: [id], onDelete: Cascade)
 
   @@map("duel")
   @@schema("business")

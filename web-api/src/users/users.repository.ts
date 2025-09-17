@@ -1,5 +1,6 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { PrismaClient } from 'prisma/generated/prisma';
+import { UserModel } from './models/user-model';
 
 @Injectable()
 export class UsersRepository extends PrismaClient implements OnModuleInit {
@@ -7,9 +8,19 @@ export class UsersRepository extends PrismaClient implements OnModuleInit {
     await this.$connect();
   }
 
-  async getAllAsync() {
-    const users = await this.user.findMany();
+  async getAsync(id: number): Promise<UserModel | null> {
+    const user = await this.user.findUnique({
+      where: { id: id },
+    });
 
-    return users;
+    return user && (user as UserModel);
+  }
+
+  async getByEmail(email: string): Promise<UserModel | null> {
+    const user = await this.user.findUnique({
+      where: { email: email },
+    });
+
+    return user && (user as UserModel);
   }
 }
