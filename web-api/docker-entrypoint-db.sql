@@ -1,0 +1,3 @@
+CREATE DATABASE users_duel_project
+WITH
+OWNER POSTGRES

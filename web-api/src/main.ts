@@ -1,8 +1,30 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  const allowedWebUiUrls = (process.env.WEB_UI ?? '5473').split(';');
+  app.enableCors({
+    origin: allowedWebUiUrls,
+    methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE', 'OPTIONS'],
+  });
+
+  const config = new DocumentBuilder()
+    .setTitle('Users duel API Docs')
+    .setVersion('1.0')
+    .build();
+
+  const documentFactory = () => SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('swagger-ui', app, documentFactory, {
+    customSiteTitle: 'Users due API Docs',
+  });
+
   await app.listen(process.env.PORT ?? 3000);
+  console.log('Application was started under 3000 port');
 }
-bootstrap();
+
+void (async () => {
+  await bootstrap();
+})();

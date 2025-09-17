@@ -1,0 +1,32 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "./generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  schemas  = ["business"]
+}
+
+model User {
+  id        Int    @id @default(autoincrement())
+  userName  String @map("user_name")
+  firstName String @map("first_name")
+  lastName  String @map("last_name")
+
+  Duel Duel[]
+
+  @@map("user")
+  @@schema("business")
+}
+
+model Duel {
+  id       Int @id @default(autoincrement())
+  winnerId Int @map("winner_id")
+
+  winner User @relation(fields: [winnerId], references: [id], onDelete: Cascade)
+
+  @@map("duel")
+  @@schema("business")
+}

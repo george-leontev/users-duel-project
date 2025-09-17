@@ -1,0 +1,11 @@
+services:
+  users-duel-database:
+    container_name: users-duel-database
+    build:
+      dockerfile: Dockerfile.database
+      context: .
+    environment:
+      - POSTGRES_PASSWORD=abcdefg
+      - POSTGRES_USER=postgres
+    ports:
+      - 35432:5432
