@@ -25,19 +25,27 @@ model Player {
   userName String @map("user_name")
   userId   Int    @unique @map("user_id")
 
-  Duel Duel[]
-  User User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  challenger Challenge[] @relation("Challenger")
+  challenged  Challenge[] @relation("Challenged")
+  winner      Challenge[] @relation("Winner")
+  User        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("player")
   @@schema("business")
 }
 
-model Duel {
-  id       Int @id @default(autoincrement())
-  winnerId Int @map("winner_id")
+model Challenge {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now()) @map("created_at")
 
-  winner Player @relation(fields: [winnerId], references: [id], onDelete: Cascade)
+  challengerId Int  @map("challenger_id")
+  challengedId Int  @map("challenged_id")
+  winnerId     Int? @map("winner_id")
 
-  @@map("duel")
+  challenger Player  @relation("Challenger", fields: [challengerId], references: [id], onDelete: Cascade)
+  challenged Player  @relation("Challenged", fields: [challengedId], references: [id], onDelete: Cascade)
+  winner     Player? @relation("Winner", fields: [winnerId], references: [id], onDelete: Cascade)
+
+  @@map("challenge")
   @@schema("business")
 }

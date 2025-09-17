@@ -9,8 +9,7 @@ export class PlayersController {
 
   @Get()
   async getAllAsync(@Req() request) {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const userId = request.user.userId;
+    const userId = request.user.userId as number;
 
     const users = await this.playersRepository.getAllAsync(userId);
 
