@@ -3,4 +3,5 @@ export default {
     accountSignIn: "/auth/sign-in",
     accountSignOut: "/auth/sign-out",
     players: "/api/players",
+    challenge: "/api/challenge",
 };

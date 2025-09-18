@@ -1,4 +1,11 @@
-import { Controller, Get, Req, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Param,
+  ParseIntPipe,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
 import { PlayersRepository } from './players.repository';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { ApiBearerAuth } from '@nestjs/swagger';
@@ -16,5 +23,12 @@ export class PlayersController {
     const users = await this.playersRepository.getAllAsync(userId);
 
     return users;
+  }
+
+  @Get(':id')
+  async getByIdAsync(@Param('id', ParseIntPipe) id: number) {
+    const user = await this.playersRepository.getByIdAsync(id);
+
+    return user;
   }
 }

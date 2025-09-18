@@ -18,4 +18,14 @@ export class PlayersRepository extends PrismaClient implements OnModuleInit {
 
     return players;
   }
+
+  async getByIdAsync(id: number) {
+    const player = await this.player.findMany({
+      where: {
+        id: id,
+      },
+    });
+
+    return player;
+  }
 }

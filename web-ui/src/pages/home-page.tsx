@@ -1,21 +1,34 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useAppDataContext } from "../contexts/app-data-context";
 import { TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, Button } from "@mui/material";
 import type { PlayerModel } from "../models/player-model";
 
 export const HomePage = () => {
-    const { getUsersAsync } = useAppDataContext();
+    const { getPlayersAsync, getPlayerAsync, createChallenge } = useAppDataContext();
     const [players, setPlayers] = useState<PlayerModel[] | undefined>();
+    const [winner, setWinner] = useState<PlayerModel | undefined>();
 
     useEffect(() => {
         (async () => {
-            const players = await getUsersAsync();
+            const players = await getPlayersAsync();
 
             if (players) {
                 setPlayers(players);
             }
         })();
-    }, [getUsersAsync]);
+    }, [getPlayersAsync]);
+
+    const startChallengeHandler = useCallback(
+        async (challengerId: number, challengedId: number) => {
+            const challenge = await createChallenge(challengerId, challengedId);
+
+            if (challenge) {
+                const winner = await getPlayerAsync(challenge.winnerId);
+                setWinner(winner);
+            }
+        },
+        [createChallenge, getPlayerAsync]
+    );
 
     return (
         <div>
