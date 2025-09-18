@@ -9,6 +9,7 @@ import { UsersRepository } from './users.repository';
 import { ApiBearerAuth } from '@nestjs/swagger';
 
 @ApiBearerAuth()
+@ApiBearerAuth()
 @Controller('api/users')
 export class UsersController {
   constructor(private readonly userRepository: UsersRepository) {}

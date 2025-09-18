@@ -16,6 +16,7 @@ async function bootstrap() {
   const config = new DocumentBuilder()
     .setTitle('Users duel API Docs')
     .setVersion('1.0')
+    .addBearerAuth()
     .build();
 
   const documentFactory = () => SwaggerModule.createDocument(app, config);

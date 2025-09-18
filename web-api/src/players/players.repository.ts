@@ -1,5 +1,5 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
-import { PrismaClient } from 'prisma/generated/prisma';
+import { PrismaClient } from '@prisma/client';
 
 @Injectable()
 export class PlayersRepository extends PrismaClient implements OnModuleInit {
@@ -8,7 +8,7 @@ export class PlayersRepository extends PrismaClient implements OnModuleInit {
   }
 
   async getAllAsync(userId: number) {
-    const users = await this.player.findMany({
+    const players = await this.player.findMany({
       where: {
         userId: {
           not: userId,
@@ -16,6 +16,6 @@ export class PlayersRepository extends PrismaClient implements OnModuleInit {
       },
     });
 
-    return users;
+    return players;
   }
 }

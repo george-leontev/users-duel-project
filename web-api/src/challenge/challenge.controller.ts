@@ -7,7 +7,9 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { ChallengeRepository } from './challenge.repository';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
+@ApiBearerAuth()
 @UseGuards(AuthGuard)
 @Controller('/api/challenge')
 export class ChallengeController {

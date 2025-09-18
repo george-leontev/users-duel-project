@@ -1,6 +1,5 @@
 generator client {
   provider = "prisma-client-js"
-  output   = "./generated/prisma"
 }
 
 datasource db {
@@ -26,9 +25,9 @@ model Player {
   userId   Int    @unique @map("user_id")
 
   challenger Challenge[] @relation("Challenger")
-  challenged  Challenge[] @relation("Challenged")
-  winner      Challenge[] @relation("Winner")
-  User        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  challenged Challenge[] @relation("Challenged")
+  winner     Challenge[] @relation("Winner")
+  User       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("player")
   @@schema("business")

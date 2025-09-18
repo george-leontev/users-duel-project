@@ -22,7 +22,7 @@ async function main() {
   await prisma.$executeRaw`insert into business.player (user_name, user_id) VALUES ('batman', 2)`;
 }
 
-void main()
+main()
   .catch((e) => {
     console.error(e);
     process.exit(1);
