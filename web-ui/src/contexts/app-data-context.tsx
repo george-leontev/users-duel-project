@@ -8,7 +8,7 @@ import type { ChallengeModel } from "../models/challenge-model";
 export type AppDataContextModel = {
     getPlayersAsync: () => Promise<PlayerModel[] | undefined>;
     getPlayerAsync: (playerId: number) => Promise<PlayerModel | undefined>;
-    createChallenge: (challengerId: number, challengedId: number) => Promise<ChallengeModel | undefined>;
+    createChallenge: (challengedId: number) => Promise<ChallengeModel | undefined>;
 };
 
 const AppDataContext = createContext({} as AppDataContextModel);
@@ -48,10 +48,10 @@ function AppDataContextProvider(props: AppDataContextProviderProps) {
     );
 
     const createChallenge = useCallback(
-        async (challengerId: number, challengedId: number) => {
+        async (challengedId: number) => {
             const response = await authHttpRequest({
                 method: "GET",
-                url: `${routes.challenge}/${challengerId}/${challengedId}`,
+                url: `${routes.challenge}/${challengedId}`,
             });
 
             if (response && response.status == HttpConstants.StatusCodes.Ok) {

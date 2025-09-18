@@ -5,7 +5,7 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-  schemas  = ["business"]
+  schemas  = ["admin", "business"]
 }
 
 model User {
@@ -16,7 +16,7 @@ model User {
   player Player?
 
   @@map("user")
-  @@schema("business")
+  @@schema("admin")
 }
 
 model Player {

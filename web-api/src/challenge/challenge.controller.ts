@@ -3,6 +3,7 @@ import {
   Get,
   Param,
   ParseIntPipe,
+  Req,
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from 'src/auth/auth.guard';
@@ -15,13 +16,15 @@ import { ApiBearerAuth } from '@nestjs/swagger';
 export class ChallengeController {
   constructor(private readonly challengeRepository: ChallengeRepository) {}
 
-  @Get('/:challengerId/:challengedId')
+  @Get('/:challengedId')
   async createChallengeAsync(
-    @Param('challengerId', ParseIntPipe) challengerId: number,
+    @Req() request,
     @Param('challengedId', ParseIntPipe) challengedId: number,
   ) {
+    const userId = request.user.userId as number;
+
     const challenge = await this.challengeRepository.createChallengeAsync(
-      challengerId,
+      userId,
       challengedId,
     );
 

@@ -3,7 +3,6 @@ import {
   Get,
   Param,
   ParseIntPipe,
-  Req,
   UseGuards,
 } from '@nestjs/common';
 import { PlayersRepository } from './players.repository';
@@ -17,10 +16,8 @@ export class PlayersController {
   constructor(private readonly playersRepository: PlayersRepository) {}
 
   @Get()
-  async getAllAsync(@Req() request) {
-    const userId = request.user.userId as number;
-
-    const users = await this.playersRepository.getAllAsync(userId);
+  async getAllAsync() {
+    const users = await this.playersRepository.getAllAsync();
 
     return users;
   }
